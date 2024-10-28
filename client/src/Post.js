@@ -1,29 +1,33 @@
-export default function Post() {
+import { formatISO9075 } from "date-fns";
+import { Link } from "react-router-dom";
+
+export default function Post(
+  _id,
+  title,
+  summary,
+  cover,
+  content,
+  createdAt,
+  author
+) {
   return (
     <div className="post">
       <div className="image">
-        <img
-          src="https://www.rainews.it/cropgd/806x453/dl/img/2024/10/12/1728746896648_sinnerdjokovic.jpg"
-          alt="Sinner immagine"
-        />
+        <Link to={`/post/${_id}`}>
+          <img src={"http://localhost:4000/" + cover} alt="" />
+        </Link>
       </div>
       <div className="texts">
-        <h2>
-          Tennis, finale Masters 1000 di Shanghai: Sinner-Djokovic per fare la
-          storia
-        </h2>
+        <Link to={`/post/${_id}`}>
+          <h2>{title}</h2>
+        </Link>
         <p className="info">
           <a href="/" className="author">
-            David Smith
+            {author.username}
           </a>
-          <time>2024-10-13 17:02</time>
+          <time>{formatISO9075(new Date(createdAt))}</time>
         </p>
-        <p className="summary">
-          Un 2024 da incorniciare per l'altoatesino che chiude la stagione da
-          n°1 al mondo. Il serbo in campo per conquistare la centesima vittoria
-          Atp, meglio di lui nell'era Open soltanto lo svizzero Roger Federer
-          (103) e lo statunitense Jimmy Connors (109)
-        </p>
+        <p className="summary">{summary}</p>
       </div>
     </div>
   );
