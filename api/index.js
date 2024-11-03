@@ -115,15 +115,6 @@ app.put("/post", uploadMiddleware.single("file"), async (req, res) => {
 
     await postDoc.save(); // Save the updated post document
     res.json(postDoc);
-
-    //     await postDoc.update({
-    //       title,
-    //       summary,
-    //       content,
-    //       cover: newPath ? newPath : postDoc.cover,
-    //     });
-
-    //     res.json(postDoc);
   });
 });
 
@@ -149,13 +140,6 @@ app.get("/post/:id", async (req, res) => {
     res.status(500).json({ error: "An error occurred" });
   }
 });
-
-// app.get("/post/:id", async (req, res) => {
-//   const { id } = req.params;
-//   const postDoc = await Post.findById(id).populate("author", ["username"]);
-//   res.json(postDoc);
-// });
-// app.listen(4000);
 
 const PORT = 4000;
 app.listen(PORT, () => {
