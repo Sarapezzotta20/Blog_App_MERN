@@ -108,14 +108,22 @@ app.put("/post", uploadMiddleware.single("file"), async (req, res) => {
     if (!isAuthor) {
       return res.status(400).json("you are not the author");
     }
-    await postDoc.update({
-      title,
-      summary,
-      content,
-      cover: newPath ? newPath : postDoc.cover,
-    });
+    postDoc.title = title;
+    postDoc.summary = summary;
+    postDoc.content = content;
+    postDoc.cover = newPath ? newPath : postDoc.cover;
 
+    await postDoc.save(); // Save the updated post document
     res.json(postDoc);
+
+    //     await postDoc.update({
+    //       title,
+    //       summary,
+    //       content,
+    //       cover: newPath ? newPath : postDoc.cover,
+    //     });
+
+    //     res.json(postDoc);
   });
 });
 
@@ -148,6 +156,7 @@ app.get("/post/:id", async (req, res) => {
 //   res.json(postDoc);
 // });
 // app.listen(4000);
+
 const PORT = 4000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
