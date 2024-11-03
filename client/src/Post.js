@@ -23,7 +23,7 @@ export default function Post(
         </Link>
         <p className="info">
           <a href="/" className="author">
-            {author.username}
+            {author}
           </a>
           <time>{formatISO9075(new Date(createdAt))}</time>
         </p>
