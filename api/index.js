@@ -18,21 +18,9 @@ app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
-// mongoose.connect(
-//   "mongodb+srv://sarapezzotta20:Leonessa2010!@cluster0.urizw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-// );
-
-mongoose
-  .connect(
-    "mongodb+srv://sarapezzotta20:Leonessa2010%21@cluster0.urizw.mongodb.net/your_database_name?retryWrites=true&w=majority",
-    { useNewUrlParser: true, useUnifiedTopology: true }
-  )
-  .then(() => {
-    console.log("Connected to MongoDB successfully.");
-  })
-  .catch((error) => {
-    console.error("MongoDB connection error:", error.message);
-  });
+mongoose.connect(
+  "mongodb+srv://sarapezzotta20:Leonessa2010!@cluster0.urizw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+);
 
 app.post("/register", async (req, res) => {
   const { username, password } = req.body;

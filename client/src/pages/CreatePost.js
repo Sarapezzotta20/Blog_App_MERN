@@ -17,7 +17,7 @@ export default function CreatePost() {
     data.set("content", content);
     data.set("file", files[0]);
     ev.preventDefault();
-    if (!data.file) {
+    if (files.length === 0) {
       alert("please upload an image for this post");
       return;
     }
