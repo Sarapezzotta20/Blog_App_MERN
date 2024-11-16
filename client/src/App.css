@@ -151,7 +151,10 @@ div.post-page a.edit-btn {
   padding: 15px 30px;
   border-radius: 5px;
   text-decoration: none;
+  margin-left: 10px;
+  margin-right: 10px;
 }
+
 a svg {
   height: 20px;
 }

@@ -18,9 +18,21 @@ app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
-mongoose.connect(
-  "mongodb+srv://sarapezzotta20:Leonessa2010!@cluster0.urizw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-);
+// mongoose.connect(
+//   "mongodb+srv://sarapezzotta20:Leonessa2010!@cluster0.urizw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+// );
+
+mongoose
+  .connect(
+    "mongodb+srv://sarapezzotta20:Leonessa2010%21@cluster0.urizw.mongodb.net/your_database_name?retryWrites=true&w=majority",
+    { useNewUrlParser: true, useUnifiedTopology: true }
+  )
+  .then(() => {
+    console.log("Connected to MongoDB successfully.");
+  })
+  .catch((error) => {
+    console.error("MongoDB connection error:", error.message);
+  });
 
 app.post("/register", async (req, res) => {
   const { username, password } = req.body;
@@ -139,19 +151,30 @@ app.get("/post/:id", async (req, res) => {
   }
 });
 
-app.delete("post/:id", async (req, res) => {
+app.delete("/post/:id", async (req, res) => {
   const { token } = req.cookies;
   jwt.verify(token, secret, {}, async (err, info) => {
     if (err) throw err;
-    const { id } = req.body;
+    const { id } = req.params;
     const postDoc = await Post.findById(id);
     const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(info.id);
     if (!isAuthor) {
       return res.status(400).json("you are not the author");
     }
 
-    await postDoc.deleteOne();
-    res.json(postDoc);
+    try {
+      // Logic to delete the post by ID
+      const deletedPost = await Post.findByIdAndDelete(id);
+      if (!deletedPost) {
+        return res.status(404).send("Post not found");
+      }
+      res.status(200).send("Post deleted successfully");
+    } catch (err) {
+      res.status(500).send("Error deleting post");
+    }
+
+    // await postDoc.deleteOne();
+    // res.json(postDoc);
   });
 });
 
